@@ -11,7 +11,7 @@ import psutil
 loglevel=logging.basicConfig(
     level=logging.INFO,
     format = "[%(asctime)s] - [%(levelname)s] %(message)s",
-    filename=r'/root/sysmonitor.log'
+    filename=r'E:\/sysmonitor.log'
     )
 
 def sendmail(subject,content):
@@ -56,31 +56,30 @@ def judge(project,size):
         sendmail(subject,content)
 
 def cpuinfo():
-    cpu_count=psutil.cpu_count()
-    cpu_count=psutil.cpu_count(logical=False)
+    #cpu_count=psutil.cpu_count()
+    #cpu_count=psutil.cpu_count(logical=False)
     cpu_usage=psutil.cpu_percent(2)
-    logging.info("Problem:The cpu usage is %s,it is to large" %cpu_usage)
+    logging.info("Problem:The cpu usage is %s" %cpu_usage)
     judge("cpu",cpu_usage)
 
 
 
 def meminfo():
     memdata=psutil.virtual_memory()
-    totalmem=memdata.total/1024/1024
-    availablemem=memdata.available/1024/1024
-    usagemem=int(memdata.percent)
-    freemem=int(100-memdata.percent)
-    logging.info("Problem:The mem usage is %s,it is to large" %usagemem)
-    judge("mem",usagemem)
+    #mem_total=memdata.total/1024/1024
+    #mem_available=memdata.available/1024/1024
+    #mem_free=int(100-memdata.percent)
+    mem_usage=int(memdata.percent)
+    logging.info("Problem:The mem usage is %s" %mem_usage)
+    judge("mem",mem_usage)
     
 
 def diskinfo():
     path='/'
-    uagedisk=psutil.disk_usage(path).percent
-    logging.info("Problem:The disk usage is %s,it is to large" %uagedisk)
-    judge("disk",uagedisk)
+    disk_uage=psutil.disk_usage(path).percent
+    logging.info("Problem:The disk usage is %s" %disk_uage)
+    judge("disk",disk_uage)
 
 cpuinfo()
 meminfo()
 diskinfo()
-
